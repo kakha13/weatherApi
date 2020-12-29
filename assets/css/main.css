@@ -1,0 +1,21 @@
+.sunrise{
+    color:orange;
+}
+.sunset{
+    color:gray;
+}
+
+.material-icons {
+	
+    vertical-align: middle;
+}
+
+.material-icons:after {
+    content: attr(data-icon);
+}
+
+small .material-icons{
+    font-size: 15px;
+    vertical-align: text-top;
+    line-height: 20px;
+}
