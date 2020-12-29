@@ -1,147 +1,135 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>any.ge WeatherApi</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
-    <link rel='stylesheet' type='text/css' media='screen' href='assets/css/main.css'>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="https://unpkg.com/moment@2.26.0/moment.js"></script>
-</head>
-<body>
-    <div id="app" class="container-fluid">
-            <header class="navbar navbar-light bg-light">
-                <div class="container">
-                    <a class="navbar-brand" href="#">
-                    {{title}}
-                    </a>
-                </div>
-            </header>
-            <main class="container mt-3"  v-if="cityData">
-            <div class="row">
-
-                <div class="col-4">
-                    <div class="shadow-sm p-3 bg-primary rounded text-white text-center">
-                    
-                        <h1 class="font-weight-bold">{{cityData.city["name"]}} , {{cityData.city["country"]}}</h1>
-                        <time class="font-weight-light d-block" style="font-size: 12px;margin-top: -10px;" id="date_m">12.29 21:27</time>
-                        
-                                
-                        <h4 class="font-weight-light"><img :src="`https://any.ge/weather/icons/${cityData.list[0].weather[0].icon}.png`" style="vertical-align: middle;"> 1 C°</h4>
-                        <small class="font-weight-bold">იგრძნობა როგორც: {{cityData.list[0].feels_like.day}}</small>
-                    </div>
-                    <div class="mt-3 p-3">
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr>
-                                <td>ქარი</td>
-                                <td><span class="material-icons" data-icon="toys"></span> {{cityData.list[0].speed}} m/s  {{cityData.list[0].deg}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ღრუბლიანობა</td>
-                                <td>{{cityData.list[0].weather[0]["description"]}}</td>
-                            </tr>
-                            <tr>
-                                <td>წნევა<br></td>
-                                <td>{{cityData.list[0].pressure}} hpa</td>
-                            </tr>
-                            <tr>
-                                <td>ტენიანობა</td>
-                                <td>{{cityData.list[0].humidity}}%</td>
-                            </tr>
-                            <tr>
-                                <td>მზის ამოსვლა</td>
-                                <td id="sunrise">{{formatTime(cityData.list[0].sunrise)}}</td>
-                            </tr>
-                            <tr>
-                                <td>მზის ჩასვლა</td>
-                                <td id="sunset">{{formatTime(cityData.list[0].sunset)}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                    
-                </div>
-                  
-            <div class="col-8">
-                <div class="d-flex flex-wrap">
-                    <div class="card m-1  flex-fill p-2 align-items-center text-center" v-for="city in cityData.list" >
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{formatDate(city.dt)}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            {{city.weather[0].main}}
-                            
-                        </h6>
-                        <img :src="`https://any.ge/weather/icons/${city.weather[0].icon}.png`"  alt="გატეხილი ღრუბლები"/>
-                        <p class="card-text">
-                            <span class="material-icons sunrise">wb_sunny </span> {{formatTime(city.sunrise)}}
-                            <span class="material-icons sunset">wb_sunny </span>
-                        </p>
-                        <p class="card-text">
-                        {{formatTime(city.sunset)}} {{city.weather[0].description}} 
-                        </p>
-
-                    </div>
-
-                    </div>
-                </div>
-            </div>
-            </div>
-
-            </main>
-            <main v-else class=" mt-3">
-                <div class="text-center">
-                    <div class="spinner-grow text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                  </div>
-            </main>
-            <footer class="text-muted py-5 mt-3 bg-light">
-            <div class="container">
-                <p class="mb-1">any.ge weather api © any.ge</p>
-                <p class="mb-0">Weather Api <a href="https://any.ge/weather">visit the homepage</a> or See Api Documentations <a href="https://any.ge/weather/api">to get started</a>.</p>
-            </div>
-            </footer>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
-<script>
-    const { createApp } = Vue;
-    const WeatherApi = ({
-        data() {
-        return {
-            title: 'Weather Api',
-            cityData: null
-        }
-        },
-      
-        methods: {
-            getAllApi: function () {
-            fetch(`https://any.ge/weather/api2.php?get=daily&id=611717&lang=ge`)
-                .then(response => response.json())
-                .then(json => {
-                    this.cityData = json;
-            });
-            },
-            formatDate(date) {
-                return  moment.unix(date).format("Do MMM YYYY")
-            },
-            formatTime(date) {
-                return  moment.unix(date).format("HH:MM")
-            },
-        },
-        created() {
-            this.getAllApi()
-        },
-    });
-    
-    Vue.createApp(WeatherApi).mount('#app')
-</script>
-</body>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+		<title>any.ge WeatherApi</title>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
+		<link rel='stylesheet' type='text/css' media='screen' href='assets/css/main.css'>
+		<script src="https://unpkg.com/vue@next"></script>
+		<script src="https://unpkg.com/moment@2.26.0/moment.js"></script>
+	</head>
+	<body>
+		<div id="app" class="container-fluid">
+			<header class="navbar navbar-light bg-light">
+				<div class="container">
+					<a class="navbar-brand" href="#">
+					{{title}}
+					</a>
+				</div>
+			</header>
+			<main class="container mt-3"  v-if="cityData">
+				<div class="row">
+					<div class="col-4">
+						<div class="shadow-sm p-3 bg-primary rounded text-white text-center">
+							<h1 >{{cityData.city["name"]}} , {{cityData.city["country"]}}</h1>
+							<time class="d-block" style="font-size: 12px;margin-top: -10px;" id="date_m">12.29 21:27</time>
+							<h4 ><img :src="`https://any.ge/weather/icons/${cityData.list[0].weather[0].icon}.png`" style="vertical-align: middle;"> 1 C°</h4>
+							<small >იგრძნობა როგორც: {{cityData.list[0].feels_like.day}}</small>
+						</div>
+						<div class="mt-3 p-3">
+							<table class="table table-borderless">
+								<tbody>
+									<tr>
+										<td>ქარი</td>
+										<td><span class="material-icons" data-icon="toys"></span> {{cityData.list[0].speed}} m/s  {{cityData.list[0].deg}}
+										</td>
+									</tr>
+									<tr>
+										<td>ღრუბლიანობა</td>
+										<td>{{cityData.list[0].weather[0]["description"]}}</td>
+									</tr>
+									<tr>
+										<td>წნევა<br></td>
+										<td>{{cityData.list[0].pressure}} hpa</td>
+									</tr>
+									<tr>
+										<td>ტენიანობა</td>
+										<td>{{cityData.list[0].humidity}}%</td>
+									</tr>
+									<tr>
+										<td>მზის ამოსვლა</td>
+										<td id="sunrise">{{formatTime(cityData.list[0].sunrise)}}</td>
+									</tr>
+									<tr>
+										<td>მზის ჩასვლა</td>
+										<td id="sunset">{{formatTime(cityData.list[0].sunset)}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-8">
+						<div class="d-flex flex-wrap">
+							<div class="card m-1  flex-fill p-2 align-items-center text-center" v-for="city in cityData.list" >
+								<div class="card-body text-center">
+									<h5 class="card-title">{{formatDate(city.dt)}}</h5>
+									<h6 class="card-subtitle mb-2 text-muted">
+										{{city.weather[0].main}}
+									</h6>
+									<img :src="`https://any.ge/weather/icons/${city.weather[0].icon}.png`"  alt="გატეხილი ღრუბლები"/>
+									<p class="card-text">
+										<span class="material-icons sunrise">wb_sunny </span> {{formatTime(city.sunrise)}}
+										<span class="material-icons sunset">wb_sunny </span>
+									</p>
+									<p class="card-text">
+										{{formatTime(city.sunset)}} {{city.weather[0].description}} 
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			<main v-else class=" mt-3">
+				<div class="text-center">
+					<div class="spinner-grow text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+			</main>
+			<footer class="text-muted py-5 mt-3 bg-light">
+				<div class="container">
+					<p class="mb-1">any.ge weather api © any.ge</p>
+					<p class="mb-0">Weather Api <a href="https://any.ge/weather">visit the homepage</a> or See Api Documentations <a href="https://any.ge/weather/api">to get started</a>.</p>
+				</div>
+			</footer>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+		<script>
+			const { createApp } = Vue;
+			const WeatherApi = ({
+			    data() {
+			    return {
+			        title: 'Weather Api',
+			        cityData: null
+			    }
+			    },
+			  
+			    methods: {
+			        getAllApi: function () {
+			        fetch(`https://any.ge/weather/api2.php?get=daily&id=611717&lang=ge`)
+			            .then(response => response.json())
+			            .then(json => {
+			                this.cityData = json;
+			        });
+			        },
+			        formatDate(date) {
+			            return  moment.unix(date).format("Do MMM YYYY")
+			        },
+			        formatTime(date) {
+			            return  moment.unix(date).format("HH:MM")
+			        },
+			    },
+			    created() {
+			        this.getAllApi()
+			    },
+			});
+			
+			Vue.createApp(WeatherApi).mount('#app')
+		</script>
+	</body>
 </html>
