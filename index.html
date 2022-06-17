@@ -3,7 +3,7 @@
 	<head>
 		<meta charset='utf-8'>
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-		<title>any.ge WeatherApi</title>
+		<title>any.ge Amindi Api</title>
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -93,8 +93,8 @@
 			</main>
 			<footer class="text-muted py-5 mt-3 bg-light">
 				<div class="container">
-					<p class="mb-1">any.ge weather api © any.ge</p>
-					<p class="mb-0">Weather Api <a href="https://any.ge/weather">visit the homepage</a> or See Api Documentations <a href="https://any.ge/weather/api">to get started</a>.</p>
+					<p class="mb-1">any.ge amindi api © any.ge</p>
+					<p class="mb-0">Amindi Api <a href="https://any.ge/amindi">visit the homepage</a> or See Api Documentations <a href="https://any.ge/weather/api">to get started</a>.</p>
 				</div>
 			</footer>
 		</div>
@@ -111,7 +111,7 @@
 			  
 			    methods: {
 			        getAllApi: function () {
-			        fetch(`https://any.ge/weather/api2.php?get=daily&id=611717&lang=ge`)
+			        fetch(`https://any.ge/amindi/api2.php?get=daily&id=611717&lang=ge`)
 			            .then(response => response.json())
 			            .then(json => {
 			                this.cityData = json;
