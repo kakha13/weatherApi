@@ -27,7 +27,7 @@
 						<div class="shadow-sm p-3 bg-primary rounded text-white text-center">
 							<h1 >{{cityData.city["name"]}} , {{cityData.city["country"]}}</h1>
 							<time class="d-block" style="font-size: 12px;margin-top: -10px;" id="date_m">12.29 21:27</time>
-							<h4 ><img :src="`https://any.ge/weather/icons/${cityData.list[0].weather[0].icon}.png`" style="vertical-align: middle;"> 1 C°</h4>
+							<h4 ><img :src="`https://any.ge/amindi/icons/${cityData.list[0].weather[0].icon}.png`" style="vertical-align: middle;"> 1 C°</h4>
 							<small >იგრძნობა როგორც: {{cityData.list[0].feels_like.day}}</small>
 						</div>
 						<div class="mt-3 p-3">
@@ -70,7 +70,7 @@
 									<h6 class="card-subtitle mb-2 text-muted">
 										{{city.weather[0].main}}
 									</h6>
-									<img :src="`https://any.ge/weather/icons/${city.weather[0].icon}.png`"  alt="გატეხილი ღრუბლები"/>
+									<img :src="`https://any.ge/amindi/icons/${city.weather[0].icon}.png`"  alt="გატეხილი ღრუბლები"/>
 									<p class="card-text">
 										<span class="material-icons sunrise">wb_sunny </span> {{formatTime(city.sunrise)}}
 										<span class="material-icons sunset">wb_sunny </span>
@@ -94,7 +94,7 @@
 			<footer class="text-muted py-5 mt-3 bg-light">
 				<div class="container">
 					<p class="mb-1">any.ge amindi api © any.ge</p>
-					<p class="mb-0">Amindi Api <a href="https://any.ge/amindi">visit the homepage</a> or See Api Documentations <a href="https://any.ge/weather/api">to get started</a>.</p>
+					<p class="mb-0">Amindi Api <a href="https://any.ge/amindi">visit the homepage</a> or See Api Documentations <a href="https://any.ge/amindi/api">to get started</a>.</p>
 				</div>
 			</footer>
 		</div>
@@ -104,7 +104,7 @@
 			const WeatherApi = ({
 			    data() {
 			    return {
-			        title: 'Weather Api',
+			        title: 'Amindi Api',
 			        cityData: null
 			    }
 			    },
